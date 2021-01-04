@@ -4,7 +4,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "node ./servers/server.js",
-    "dev": "nodemon ./servers/server.js"
+    "nodemon": "nodemon ./servers/server.js",
+    "portfolio": "cd ./webapps/portfolio && yarn start",
+    "dev": "concurrently --kill-others-on-fail \"yarn nodemon\" \"yarn portfolio\""
   },
   "dependencies": {
     "body-parser": "^1.19.0",
