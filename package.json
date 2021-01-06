@@ -1,13 +1,13 @@
 {
   "name": "study",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "node ./servers/server.js",
-    "nodemon": "nodemon ./servers/server.js",
+    "dev": "set NODE_ENV=development && nodemon ./servers/server.js",
+    "pr": "NODE_ENV=production && nodemon ./servers/server.js",
     "portfolio": "cd ./webapps/portfolio && yarn start",
     "garden": "cd ./webapps/garden && yarn start",
-    "dev": "concurrently --kill-others-on-fail \"yarn nodemon\" \"yarn portfolio\" \"yarn garden\""
+    "project": "concurrently --kill-others-on-fail \"yarn dev\" \"yarn portfolio\" \"yarn garden\""
   },
   "dependencies": {
     "body-parser": "^1.19.0",

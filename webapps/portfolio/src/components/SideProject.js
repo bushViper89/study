@@ -24,7 +24,7 @@ export default function SideProject(props) {
           <MDBCol lg="5" className="text-center text-lg-left my-3">
             <img
               className="img-fluid"
-              src="http://192.168.56.1:5000/images/portfolio/side-project-1.png"
+              src="http://220.230.119.118:5000/images/portfolio/side-project-1.png"
               alt="indoor garden"
             />
           </MDBCol>
@@ -71,7 +71,7 @@ export default function SideProject(props) {
       <MDBCol lg="12">
         <MDBRow className="text-right mt-3">
           <MDBCol>
-            <MDBBtn size="sm" target="_blank" href="http://220.230.119.118:3001"><span style={{fontSize:"1rem"}}>link</span></MDBBtn>
+            <MDBBtn size="sm" target="_blank" href="http://220.230.119.118:8080"><span style={{fontSize:"1rem"}}>link</span></MDBBtn>
             <MDBBtn size="sm" target="_blank" href="https://github.com/bushViper89/study/tree/master/webapps/garden"><span style={{fontSize:"1rem"}}>github</span></MDBBtn>
           </MDBCol>
         </MDBRow>

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 .garden-intro.view {
-  background-image: url("http://192.168.56.1:5000/images/garden/intro-background.png");
+  background-image: url("http://220.230.119.118:5000/images/garden/intro-background.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;

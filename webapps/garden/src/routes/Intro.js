@@ -25,7 +25,7 @@ export default function Intro() {
             </MDBRow>
             <MDBRow>
               <MDBCol className="col-12 flex-center">
-                <MDBLink className="btn col-2 primary-color text-white" to='/home/1'>시작하기</MDBLink>
+                <MDBLink className="btn col-md-2 col-sm-12 primary-color text-white" to='/home/1'>시작하기</MDBLink>
               </MDBCol>
             </MDBRow>
           </MDBAnimation>
