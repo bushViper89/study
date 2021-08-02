@@ -41,9 +41,9 @@ if (process.env.NODE_ENV === "production")
   garden.use(static(path.join(__dirname, '../webapps/garden/build')));
 
   garden.use(
-    '/gardenList',
+    '/garden/*',
     createProxyMiddleware({
-      target: 'http://api.nongsaro.go.kr/service/garden/',
+      target: 'http://api.nongsaro.go.kr/service/',
       changeOrigin: true
     })
   );

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from "axios";
+import parseFromString from "react-native-xml2js";
 import {   
   MDBTable,
   MDBTableHead,
@@ -12,12 +14,38 @@ class Details extends Component {
 
     this.state = {
       images: props.images,
+      cntntsNo: props.cntntsNo,
+      info: []
     }
   }
 
-render() {
-  return (
-    <>
+  componentDidMount() {
+    this.getDetailsInfo();
+  }
+
+  getDetailsInfo = async () => {
+    await axios('/garden/gardenDtl', {
+      params: {
+        apiKey: '20201130LORDNUL4PV0R0IAIVEVOQ',
+        cntntsNo: this.state.cntntsNo
+      }
+    })
+    .then(res => {      
+      parseFromString.parseString(res.data, (err, result) => {
+        let info = JSON.parse(JSON.stringify(result)).response.body[0].item[0];
+        this.setState({
+          info
+        });
+      });
+    })
+    .catch(error => {
+      console.log("axios error");
+    })
+  }
+
+  render() {
+    return (this.state.info.length !== 0) && (
+      <>
       <MDBCarousel
         activeItem={1}
         length={this.state.images.split("|").length}
@@ -25,8 +53,7 @@ render() {
         showIndicators={true}
         className="z-depth-1 mb-3 details"
       >
-        <MDBCarouselInner>
-
+      <MDBCarouselInner>
         {
           this.state.images.split("|").map((value, index) => {
             return (
@@ -42,45 +69,30 @@ render() {
             )
           })
         }
-
-          
-          
-        </MDBCarouselInner>
+      </MDBCarouselInner>
       </MDBCarousel>
 
-      <MDBTable striped>
-            <MDBTableHead color="primary-color" textWhite>
-              <tr>
-                <th>#</th>
-                <th>First</th>
-                <th>Last</th>
-                <th>Handle</th>
-              </tr>
-            </MDBTableHead>
-            <MDBTableBody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </MDBTableBody>
-          </MDBTable>
+      <MDBTable striped className="text-center">
+        <MDBTableHead color="primary-color" textWhite>
+          <tr>
+            <th>꽃색</th>
+            <th>열매색</th>
+            <th>꽃피는 계절</th>
+            <th>번식 시기</th>
+          </tr>
+        </MDBTableHead>
+        <MDBTableBody>
+          <tr>
+            <td>{(this.state.info.flclrCodeNm[0].length) ? this.state.info.flclrCodeNm : "정보 없음"}</td>
+            <td>{(this.state.info.fmldecolrCodeNm[0].length) ? this.state.info.fmldecolrCodeNm : "정보 없음"}</td>
+            <td>{(this.state.info.fmldeSeasonCodeNm[0].length) ? this.state.info.fmldeSeasonCodeNm : "정보 없음"}</td>
+            <td>{(this.state.info.prpgtEraInfo[0].length) ? this.state.info.prpgtEraInfo : "정보 없음"}</td>
+          </tr>
+        </MDBTableBody>
+      </MDBTable>
       </>
     );
-  }
+  }    
 }
 
 export default Details;

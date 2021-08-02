@@ -25,19 +25,30 @@ class PlantList extends Component {
       container: {minHeight: "500px"},
       list: props.list,
       imgURL: "http://www.nongsaro.go.kr/cms_contents/301/",
+      title: "",
       details: [],
-      images: ""
+      images: "",
+      cntntsNo: ""
     }
   }
 
   toggle = () => {
-    // this.setState({
-    //   modal: !this.state.modal
-    // });
+    this.setState({
+      modal: !this.state.modal
+    });
   }
 
   render() {
     const { imgURL, list } = this.state;
+
+    let details;
+    if (this.state.modal)
+    {
+      details = <Details cntntsNo={this.state.cntntsNo} images={this.state.images}/>;
+    }
+    else {      
+      details = <></>;
+    }
 
     return (
       <MDBContainer className="pt-3" style={ this.state.container }>          
@@ -49,12 +60,15 @@ class PlantList extends Component {
                 list.map((value, index) => {
                   return (
                     <MDBListGroupItem className="blue-grey-text d-flex align-items-center" hover key={index} 
-                      onClick={() => { this.toggle(); this.setState({images: value.rtnStreFileNm[0]}) }}
+                      onClick={() => { 
+                        this.toggle();
+                        if (!this.state.modal) this.setState({images: value.rtnStreFileNm[0], title: value.cntntsSj, cntntsNo: value.cntntsNo[0]});
+                       }}
                     >
                       <img src={imgURL + value.rtnThumbFileNm[0].split("|")[0]} className="rounded float-left" alt={value.cntntsSj} />
                       <div className="p-2">
+                        <span className="pl-2">No.{value.cntntsNo}</span>
                         <h5 className="pl-2 font-weight-bold">{value.cntntsSj}</h5>
-                        <span className="pl-3">No.{value.cntntsNo}</span>
                       </div>
                       <MDBIcon icon="angle-right" size="3x" className="ml-auto grey-text" />              
                     </MDBListGroupItem>
@@ -67,14 +81,15 @@ class PlantList extends Component {
         </MDBRow>
         
         <MDBModal isOpen={this.state.modal} toggle={this.toggle} size="lg">
-          <MDBModalHeader toggle={this.toggle}>MDBModal title</MDBModalHeader>
+          <MDBModalHeader toggle={this.toggle}><MDBIcon icon="leaf" />{" " + this.state.title}</MDBModalHeader>
           <MDBModalBody>
-            <Details images={this.state.images}/>
+            {details}            
           </MDBModalBody>
           <MDBModalFooter>
             <MDBBtn color="secondary" onClick={this.toggle}>Close</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
+      
 
       </MDBContainer>
     );

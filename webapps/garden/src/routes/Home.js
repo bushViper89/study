@@ -24,7 +24,7 @@ class Home extends Component {
   }
 
   getGardenList = async () => {
-    await axios('/gardenList', {
+    await axios('/garden/gardenList', {
       params: {
         apiKey: '20201130LORDNUL4PV0R0IAIVEVOQ',
         pageNo: this.state.currentPage,
