@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from "axios";
+import Api from '../../Api';
 import parseFromString from "react-native-xml2js";
 import {   
   MDBTable,
@@ -24,9 +24,8 @@ class Details extends Component {
   }
 
   getDetailsInfo = async () => {
-    await axios('/garden/gardenDtl', {
-      params: {
-        apiKey: '20201130LORDNUL4PV0R0IAIVEVOQ',
+    await Api.get('/gardenDtl', {
+      params: {        
         cntntsNo: this.state.cntntsNo
       }
     })

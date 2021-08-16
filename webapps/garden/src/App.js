@@ -1,24 +1,27 @@
 import React from "react";
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import './App.css';
 
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Intro from "./routes/Intro";
-import Home from "./routes/Home";
+
+import Intro from "./components/Intro";
+import MainPage from "./components/main/MainPage";
+import configureStore from "./store/configureStore";
 
 export default class App extends React.Component {
+  store = configureStore();
+
   render() {
     return (
-      <Router>
-        <Header/>
-        <Switch>
-          <Route exact={true} path="/" component={Intro} />
-          <Route path="/home/:page" component={Home} />
-          <Redirect from="*" to="/home/1"/>
-        </Switch>
-        <Footer/>
-      </Router>
+      <Provider store={this.store}>
+        <Router>
+          <Switch>
+            <Route exact={ true } path="/" component={ Intro } />
+            <Route path="/main/:page" component={ MainPage } />
+            <Redirect from="*" to="/main/1"/>
+          </Switch>
+        </Router>
+      </Provider>
     );
   }
 }

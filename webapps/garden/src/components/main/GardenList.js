@@ -1,4 +1,7 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
+
+import Api from '../../Api';
+
 import {
   MDBContainer,
   MDBRow,
@@ -12,9 +15,12 @@ import {
   MDBModalFooter,
   MDBBtn,
 } from "mdbreact";
+
+import Loader from "../garden-ui/Loader";
+import PageNavi from "../garden-ui/PageNavi";
 import Details from "./Details";
 
-class PlantList extends Component {
+class GardenList extends PureComponent {
   constructor(props) {
     super(props);
   
@@ -23,13 +29,19 @@ class PlantList extends Component {
       isFirst: true,
       isLast: false,
       container: {minHeight: "500px"},
-      list: props.list,
       imgURL: "http://www.nongsaro.go.kr/cms_contents/301/",
       title: "",
       details: [],
       images: "",
       cntntsNo: ""
     }
+  }
+
+  componentDidMount() {
+    Api.get('/gardenList')
+    .then( ({ data }) => {
+      this.props.setGardenList(data);
+    });
   }
 
   toggle = () => {
@@ -39,9 +51,12 @@ class PlantList extends Component {
   }
 
   render() {
-    const { imgURL, list } = this.state;
+    const { garden, totalCount } = this.props;
+
+    const { imgURL } = this.state;
 
     let details;
+
     if (this.state.modal)
     {
       details = <Details cntntsNo={this.state.cntntsNo} images={this.state.images}/>;
@@ -54,10 +69,9 @@ class PlantList extends Component {
       <MDBContainer className="pt-3" style={ this.state.container }>          
         <MDBRow>
           <MDBCol>
-
             <MDBListGroup>
               {
-                list.map((value, index) => {
+                garden.map((value, index) => {
                   return (
                     <MDBListGroupItem className="blue-grey-text d-flex align-items-center" hover key={index} 
                       onClick={() => { 
@@ -76,9 +90,12 @@ class PlantList extends Component {
                 })
               }
             </MDBListGroup>
-
           </MDBCol>
         </MDBRow>
+        <MDBRow>
+          <PageNavi currentPage={10} totalPage={20} />
+        </MDBRow>
+
         
         <MDBModal isOpen={this.state.modal} toggle={this.toggle} size="lg">
           <MDBModalHeader toggle={this.toggle}><MDBIcon icon="leaf" />{" " + this.state.title}</MDBModalHeader>
@@ -96,4 +113,10 @@ class PlantList extends Component {
   }
 }
 
-export default PlantList;
+GardenList.defaultProps = {
+  garden: [],
+  totalCount: null,
+  setGardenList: () => {},
+}
+
+export default GardenList;
